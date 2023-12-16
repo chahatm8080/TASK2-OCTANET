@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=0" />
+    <title>To-Do List App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    
+    <div class="container">
+      <div class="todo-app" id="left-list">
+        <h2>MORE IMPORTANT TASKS <img src="C:\Users\Chahat Mishra\OneDrive\Desktop\TASK2 OCTANET\ASSETS\icon.png" /></h2>
+        <div class="row">
+          <input type="text" id="left-input-box" placeholder="Add your to-do" />
+          <button onclick="addLeftTask()">Add</button>
+        </div>
+        <ul id="left-list-container">
+         
+        </ul>
+      </div>
+
+      <div class="todo-app" id="Right-list">
+        <h2>LESS IMPORTANT TASK <img src="C:\Users\Chahat Mishra\OneDrive\Desktop\TASK2 OCTANET\ASSETS\icon.png" /></h2>
+        <div class="row">
+          <input
+            type="text"
+            id="Right-input-box"
+            placeholder="Add your to-do"
+          />
+          <button onclick="addRightTask()">Add</button>
+        </div>
+        <ul id="Right-list-container">
+        
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // Left List Functions
+      const leftInputBox = document.getElementById("left-input-box");
+      const leftListContainer = document.getElementById("left-list-container");
+
+      function addLeftTask() {
+        if (leftInputBox.value === "") {
+          alert("You must write something");
+        } else {
+          let li = document.createElement("li");
+          li.innerHTML = leftInputBox.value;
+          leftListContainer.appendChild(li);
+          let span = document.createElement("span");
+          span.innerHTML = "\u00d7";
+          li.appendChild(span);
+        }
+        leftInputBox.value = "";
+        saveLeftData();
+      }
+
+      const RightInputBox = document.getElementById("Right-input-box");
+      const RightListContainer = document.getElementById(
+        "Right-list-container"
+      );
+
+      function addRightTask() {
+        if (RightInputBox.value === "") {
+          alert("You must write something");
+        } else {
+          let li = document.createElement("li");
+          li.innerHTML = RightInputBox.value;
+          RightListContainer.appendChild(li);
+          let span = document.createElement("span");
+          span.innerHTML = "\u00d7";
+          li.appendChild(span);
+        }
+        RightInputBox.value = "";
+        saveRightData();
+      }
+
+     
+      function saveLeftData() {
+        localStorage.setItem("leftData", leftListContainer.innerHTML);
+      }
+
+      function saveRightData() {
+        localStorage.setItem("RightData", RightListContainer.innerHTML);
+      }
+
+      
+      function showLeftTask() {
+        leftListContainer.innerHTML = localStorage.getItem("leftData");
+      }
+      function showRightTask() {
+        RightListContainer.innerHTML = localStorage.getItem("RightData");
+      }
+      showLeftTask();
+      showRightTask();
+
+      leftListContainer.addEventListener(
+        "click",
+        function (event) {
+          if (event.target.tagName === "LI") {
+            event.target.classList.toggle("checked");
+            saveLeftData();
+          } else if (event.target.tagName === "SPAN") {
+            event.target.parentElement.remove();
+            saveLeftData();
+          }
+        },
+        false
+      );
+
+      RightListContainer.addEventListener(
+        "click",
+        function (event) {
+          if (event.target.tagName === "LI") {
+            event.target.classList.toggle("checked");
+            saveRightData();
+          } else if (event.target.tagName === "SPAN") {
+            event.target.parentElement.remove();
+            saveRightData();
+          }
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
